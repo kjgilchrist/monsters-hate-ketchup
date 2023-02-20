@@ -21,7 +21,7 @@ func _input(event):
 			$FlashLight.look_at(ScreenPointToRay(), Vector3.UP)
 	if event.is_action_pressed("click"):
 			if Input.get_mouse_mode() == Input.MOUSE_MODE_VISIBLE:
-				Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+				Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
 	get_tree().set_input_as_handled()
 
 func ScreenPointToRay():
