@@ -1,5 +1,10 @@
 extends KinematicBody2D
 
+export var move_right = "ui_right"
+export var move_left = "ui_left"
+export var move_up = "ui_up"
+export var move_down = "ui_down"
+
 export var speed = 300
 var screen_size
 
@@ -8,14 +13,14 @@ func _ready():
 
 func _process(delta):
 	var velocity = Vector2.ZERO # Player's movement vector.
-	if Input.is_action_pressed("ui_right"):
+	if Input.is_action_pressed(move_right):
 		velocity.x += 1
-	if Input.is_action_pressed("ui_left"):
+	if Input.is_action_pressed(move_left):
 		velocity.x -= 1
-	if Input.is_action_pressed("ui_down"):
-		velocity.y += 1
-	if Input.is_action_pressed("ui_up"):
+	if Input.is_action_pressed(move_up):
 		velocity.y -= 1
+	if Input.is_action_pressed(move_down):
+		velocity.y += 1
 	
 	if velocity.length() > 0:
 		velocity = velocity.normalized() * speed

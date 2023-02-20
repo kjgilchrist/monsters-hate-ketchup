@@ -14,6 +14,10 @@ script = ExtResource( 2 )
 __meta__ = {
 "_edit_group_": true
 }
+move_right = "toast_move_right"
+move_left = "toast_move_left"
+move_up = "toast_move_up"
+move_down = "toast_move_down"
 
 [node name="Sprite" type="Sprite" parent="."]
 scale = Vector2( 0.5, 0.5 )
