@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://fonts/Montserrat-Medium.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://scenes/Ketchup.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scripts/Portal.gd" type="Script" id=3]
 [ext_resource path="res://scenes/Toaster.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scripts/ScoreLabel.gd" type="Script" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 48, 360 )
@@ -63,12 +64,15 @@ margin_top = 48.0
 margin_right = 992.0
 margin_bottom = 88.0
 custom_fonts/font = SubResource( 5 )
-text = "SCORE"
+text = "Score: 0"
 align = 2
 valign = 1
+script = ExtResource( 5 )
 
 [node name="Ketchup" parent="." instance=ExtResource( 2 )]
 collision_mask = 8
 move_down = "ketchup_move_down"
+action_key = "ketchup_action"
 
 [node name="Toaster" parent="." instance=ExtResource( 4 )]
+action_key = "toast_action"

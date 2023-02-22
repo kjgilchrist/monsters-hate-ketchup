@@ -17,7 +17,6 @@ __meta__ = {
 move_right = "ketchup_move_right"
 move_left = "ketchup_move_left"
 move_up = "ketchup_move_up"
-move_down = null
 
 [node name="Sprite" type="Sprite" parent="."]
 scale = Vector2( 0.5, 0.5 )

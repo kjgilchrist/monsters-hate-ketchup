@@ -95,6 +95,8 @@ test_toggle={
 3d_physics/layer_3="Mobs"
 2d_physics/layer_4="HUD"
 3d_physics/layer_4="HUD"
+2d_physics/layer_5="PlayerRaycast"
+3d_physics/layer_5="PlayerRaycast"
 
 [physics]
 
