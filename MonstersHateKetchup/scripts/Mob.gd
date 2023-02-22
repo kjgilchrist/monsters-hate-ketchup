@@ -38,9 +38,11 @@ func defeat():
 	emit_signal("defeated")
 	queue_free()
 
-#func _on_VisibilityNotifier_camera_entered(_player_camera):
-#	pass
+func _on_VisibilityNotifier_camera_entered(camera):
+	if camera.is_in_group("PlayerCamera"):
+		print("Mob Spotted!")
 #
-#func _on_VisibilityNotifier_camera_exited(_player_camera):
-#	print("Mob Removed")
-#	queue_free()
+func _on_VisibilityNotifier_camera_exited(camera):
+	if camera.is_in_group("PlayerCamera"):
+		print("Mob Removed!")
+		queue_free()

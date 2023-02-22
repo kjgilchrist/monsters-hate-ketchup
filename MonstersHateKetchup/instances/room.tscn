@@ -61,8 +61,3 @@ curve = SubResource( 6 )
 [node name="SpawnLocation" type="PathFollow" parent="SpawnPath"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 4 )
 rotation_mode = 0
-
-[node name="MobTimer" type="Timer" parent="."]
-autostart = true
-
-[connection signal="timeout" from="MobTimer" to="." method="_on_MobTimer_timeout"]
