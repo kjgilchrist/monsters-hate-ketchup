@@ -13,11 +13,14 @@ func _unhandled_input(_event):
 #		get_tree().reload_current_scene()
 	pass
 
-### Current
+
 func _ready():
 	randomize();
 	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
 	$PlayerNode.transform = start_camera.get_camera_transform()
+	for n in range (1,get_tree().get_nodes_in_group("Rooms").size()+1):
+		get_node("Room" + str(n)).room_adjustment = get_node("Room" + str(n)).translation
+		get_node("Room" + str(n)).room_y_rotation = get_node("Room" + str(n)).get_rotation().y
 
 
 func _process(_delta):
@@ -28,23 +31,35 @@ func _input(event):
 	# Change Camera keys
 	if event is InputEventKey and event.pressed:
 		if event.scancode == KEY_1:
+			get_node("Room" + str(current_room_number)).is_current = false
 			ChangeCurrentCamera(1)
+			$Room1.is_current = true
 			print("Switched to Camera 1")
 		if event.scancode == KEY_2:
 			print("Switched to Camera 2")
+			get_node("Room" + str(current_room_number)).is_current = false
 			ChangeCurrentCamera(2)
+			$Room2.is_current = true
 		if event.scancode == KEY_3:
 			print("Switched to Camera 3")
+			get_node("Room" + str(current_room_number)).is_current = false
 			ChangeCurrentCamera(3)
+			$Room3.is_current = true
 		if event.scancode == KEY_4:
 			print("Switched to Camera 4")
+			get_node("Room" + str(current_room_number)).is_current = false
 			ChangeCurrentCamera(4)
+			$Room4.is_current = true
 		if event.scancode == KEY_5:
 			print("Switched to Camera 5")
+			get_node("Room" + str(current_room_number)).is_current = false
 			ChangeCurrentCamera(5)
+			$Room5.is_current = true
 		if event.scancode == KEY_6:
 			print("Switched to Camera 6")
+			get_node("Room" + str(current_room_number)).is_current = false
 			ChangeCurrentCamera(6)
+			$Room6.is_current = true
 	# Switch Room light on and off in-game
 	if Input.is_action_pressed("test_toggle"):
 		SwitchCurrentRoomLight()
@@ -87,25 +102,3 @@ func SwitchCurrentRoomLight():
 		current_light.switch = "off"
 	else:
 		current_light.switch = "on"
-
-
-func _on_MobTimer_timeout():
-	# Create a new instance of the Mob scene.
-	var mob = mob_scene.instance()
-	print("Mob Instance Created")
-
-	# Choose a random location on the SpawnPath.
-	var mob_spawn_location = get_node("Room" + str(current_room_number) + "/SpawnPath/SpawnLocation")
-	print(mob_spawn_location)
-	mob_spawn_location.offset = randf()
-	print("Spawn Location Found: Room" + str(current_room_number))
-
-	# Communicate the spawn location and the player's location to the mob.
-	var player_position = $PlayerNode/Camera.get_camera_transform().origin
-	mob.initialize(mob_spawn_location.translation, player_position)
-	print("Mob Initialized")
-
-	# Spawn the mob by adding it to the Main scene.
-	add_child(mob)
-	# We connect the mob to the score label to update the score upon squashing a mob.
-	mob.connect("defeated", $HUD/Score, "_on_Mob_defeated")

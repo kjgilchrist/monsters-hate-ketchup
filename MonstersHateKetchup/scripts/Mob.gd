@@ -4,10 +4,11 @@ extends KinematicBody
 signal defeated
 
 # Minimum speed of the mob in meters per second.
-export var min_speed = 10
+export var min_speed = 5
 # Maximum speed of the mob in meters per second.
-export var max_speed = 18
+export var max_speed = 5
 
+var position = Vector3.ZERO
 var velocity = Vector3.ZERO
 
 
@@ -17,12 +18,15 @@ func _physics_process(_delta):
 
 
 func initialize(start_position, player_position):
+	#show()
+	#var direction_to_player = start_position - player_position
 	look_at_from_position(start_position, player_position, Vector3.UP)
 	#rotate_y(rand_range(-PI / 4, PI / 4))
 
-	var random_speed = rand_range(min_speed, max_speed)
+	#var random_speed = rand_range(min_speed, max_speed)
 	# We calculate a forward velocity first, which represents the speed.
-	velocity = Vector3.FORWARD * random_speed
+	#velocity = Vector3.FORWARD * random_speed
+	#velocity = direction_to_player.normalized() * random_speed
 	# We then rotate the vector based on the mob's Y rotation to move in the direction it's looking.
 	#velocity = velocity.rotated(Vector3.UP, rotation.y)
 
@@ -30,11 +34,13 @@ func initialize(start_position, player_position):
 
 
 func defeat():
+	print("Mob Dead")
 	emit_signal("defeated")
 	queue_free()
 
-func _on_VisibilityNotifier_camera_entered(_player_camera):
-	pass
-
-func _on_VisibilityNotifier_camera_exited(_player_camera):
-	queue_free()
+#func _on_VisibilityNotifier_camera_entered(_player_camera):
+#	pass
+#
+#func _on_VisibilityNotifier_camera_exited(_player_camera):
+#	print("Mob Removed")
+#	queue_free()
