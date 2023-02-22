@@ -7,6 +7,8 @@ export var move_up = "ui_up"
 export var move_down = "ui_down"
 export var action_key = "ui_accept"
 
+var port_left := false
+var port_right := false
 export var speed = 300
 var screen_size
 
@@ -61,3 +63,19 @@ func PointToRay(o_camera, end_point):
 		return rayArray
 	print("Error: Dictionary empty, no collision detected.")
 	return Vector3()
+
+
+func _on_PortalLeft_body_entered(_body):
+	port_left = true
+
+
+func _on_PortalRight_body_entered(_body):
+	port_right = true
+
+
+func _on_PortalLeft_body_exited(_body):
+	port_left = false
+
+
+func _on_PortalRight_body_exited(_body):
+	port_right = false

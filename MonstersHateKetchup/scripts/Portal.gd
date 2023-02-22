@@ -1,11 +1,13 @@
-extends Area2D # Must extend HUD root node.
+extends Node2D # Must extend HUD root node.
+
+# "cw" or "ccw" - clockwise, counterclockwise
+signal change_cw
+signal change_ccw
 
 
-export var dir = ""
+func _on_PortalLeft_body_entered(_body):
+	emit_signal("change_ccw")
 
 
-func _on_Portal_body_entered(_body):
-	if dir == "":
-		print("Error: Direction not set.")
-	else:
-		emit_signal(dir)
+func _on_PortalRight_body_entered(_body):
+	emit_signal("change_cw")

@@ -22,11 +22,11 @@ size = 25
 font_data = ExtResource( 1 )
 
 [node name="HUD" type="Node2D"]
+script = ExtResource( 3 )
 
 [node name="PortalLeft" type="Area2D" parent="."]
 collision_layer = 8
 collision_mask = 2
-script = ExtResource( 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PortalLeft"]
 position = Vector2( 48, 360 )
@@ -35,7 +35,6 @@ shape = SubResource( 1 )
 [node name="PortalRight" type="Area2D" parent="."]
 collision_layer = 8
 collision_mask = 2
-script = ExtResource( 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PortalRight"]
 position = Vector2( 1232, 360 )
@@ -76,3 +75,14 @@ action_key = "ketchup_action"
 
 [node name="Toaster" parent="." instance=ExtResource( 4 )]
 action_key = "toast_action"
+
+[connection signal="body_entered" from="PortalLeft" to="." method="_on_PortalLeft_body_entered"]
+[connection signal="body_entered" from="PortalLeft" to="Ketchup" method="_on_PortalLeft_body_entered"]
+[connection signal="body_entered" from="PortalLeft" to="Toaster" method="_on_PortalLeft_body_entered"]
+[connection signal="body_exited" from="PortalLeft" to="Ketchup" method="_on_PortalLeft_body_exited"]
+[connection signal="body_exited" from="PortalLeft" to="Toaster" method="_on_PortalLeft_body_exited"]
+[connection signal="body_entered" from="PortalRight" to="." method="_on_PortalRight_body_entered"]
+[connection signal="body_entered" from="PortalRight" to="Ketchup" method="_on_PortalRight_body_entered"]
+[connection signal="body_entered" from="PortalRight" to="Toaster" method="_on_PortalRight_body_entered"]
+[connection signal="body_exited" from="PortalRight" to="Ketchup" method="_on_PortalRight_body_exited"]
+[connection signal="body_exited" from="PortalRight" to="Toaster" method="_on_PortalRight_body_exited"]

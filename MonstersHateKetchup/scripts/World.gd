@@ -2,8 +2,8 @@ extends Spatial
 
 onready var light_node = get_node("Room1")  # The path in the tree, not the file system.
 onready var start_camera = get_node("Room1/Camera")
-var current_camera = start_camera
 var current_room_number = 1
+var current_room_node
 
 export(PackedScene) var mob_scene = load("res://instances/mob.tscn")
 
@@ -21,6 +21,7 @@ func _ready():
 	for n in range (1,get_tree().get_nodes_in_group("Rooms").size()+1):
 		get_node("Room" + str(n)).room_adjustment = get_node("Room" + str(n)).translation
 		get_node("Room" + str(n)).room_y_rotation = get_node("Room" + str(n)).get_rotation().y
+	current_room_node = light_node
 
 
 func _process(_delta):
@@ -31,35 +32,23 @@ func _input(event):
 	# Change Camera keys
 	if event is InputEventKey and event.pressed:
 		if event.scancode == KEY_1:
-			get_node("Room" + str(current_room_number)).is_current = false
-			ChangeCurrentCamera(1)
-			$Room1.is_current = true
 			print("Switched to Camera 1")
+			ChangeCurrentCamera(1)
 		if event.scancode == KEY_2:
 			print("Switched to Camera 2")
-			get_node("Room" + str(current_room_number)).is_current = false
 			ChangeCurrentCamera(2)
-			$Room2.is_current = true
 		if event.scancode == KEY_3:
 			print("Switched to Camera 3")
-			get_node("Room" + str(current_room_number)).is_current = false
 			ChangeCurrentCamera(3)
-			$Room3.is_current = true
 		if event.scancode == KEY_4:
 			print("Switched to Camera 4")
-			get_node("Room" + str(current_room_number)).is_current = false
 			ChangeCurrentCamera(4)
-			$Room4.is_current = true
 		if event.scancode == KEY_5:
 			print("Switched to Camera 5")
-			get_node("Room" + str(current_room_number)).is_current = false
 			ChangeCurrentCamera(5)
-			$Room5.is_current = true
 		if event.scancode == KEY_6:
 			print("Switched to Camera 6")
-			get_node("Room" + str(current_room_number)).is_current = false
 			ChangeCurrentCamera(6)
-			$Room6.is_current = true
 	# Switch Room light on and off in-game
 	if Input.is_action_pressed("test_toggle"):
 		SwitchCurrentRoomLight()
@@ -92,6 +81,10 @@ func PointToRay(o_camera, end_point):
 
 func ChangeCurrentCamera(x):
 	current_room_number = x
+	current_room_node.is_current = false
+	current_room_node = get_node("Room" + str(x))
+	print(current_room_node)
+	current_room_node.is_current = true
 	var new_camera = get_node("Room" + str(x) + "/Camera")
 	$PlayerNode.transform = new_camera.get_camera_transform()
 
@@ -127,3 +120,15 @@ func _on_MobTimer_timeout():
 	add_child(mob)
 	# We connect the mob to the score label to update the score upon squashing a mob.
 	mob.connect("defeated", $HUD/Score, "_on_Mob_defeated")
+
+
+func _on_HUD_change_ccw():
+	if $HUD/Ketchup.port_left == true and $HUD/Toaster.port_left == true:
+		var camera_change = (current_room_number + 4) % (get_tree().get_nodes_in_group("Rooms").size()) + 1
+		ChangeCurrentCamera(camera_change)
+
+
+func _on_HUD_change_cw():
+	if $HUD/Ketchup.port_right == true and $HUD/Toaster.port_right == true:
+		var camera_change = (current_room_number) % (get_tree().get_nodes_in_group("Rooms").size()) + 1
+		ChangeCurrentCamera(camera_change)
