@@ -22,6 +22,8 @@ func _ready():
 		get_node("Room" + str(n)).room_adjustment = get_node("Room" + str(n)).translation
 		get_node("Room" + str(n)).room_y_rotation = get_node("Room" + str(n)).get_rotation().y
 	current_room_node = light_node
+	$HUD/Clock.hide()
+	$HUD/Score.hide()
 
 
 func _process(_delta):
@@ -62,7 +64,7 @@ func _input(event):
 	if event.is_action_pressed("click"):
 			if Input.get_mouse_mode() == Input.MOUSE_MODE_VISIBLE:
 				Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
-	get_tree().set_input_as_handled()
+	#get_tree().set_input_as_handled()
 
 
 func PointToRay(o_camera, end_point):
@@ -98,28 +100,33 @@ func SwitchCurrentRoomLight():
 
 
 func _on_MobTimer_timeout():
-	# Create a new instance of the Mob scene.
-	var mob = mob_scene.instance()
-	print("Mob Instance Created")
+	$MobTimer.wait_time = rand_range(5,15)
+	if get_tree().get_nodes_in_group("Mobs").size() < 1:
+		# Create a new instance of the Mob scene.
+		var mob = mob_scene.instance()
+		print("Mob Instance Created")
 
-	# Choose a random location on the SpawnPath.
-	var mob_spawn_location = get_node("Room" + str(current_room_number) + "/SpawnPath/SpawnLocation")
-	#print(mob_spawn_location.translation)
-	mob_spawn_location.unit_offset = randf()
-	print("Spawn Location Found: Room" + str(current_room_number))
+		# Choose a random location on the SpawnPath.
+		var mob_spawn_location = get_node("Room" + str(current_room_number) + "/SpawnPath/SpawnLocation")
+		#print(mob_spawn_location.translation)
+		mob_spawn_location.unit_offset = randf()
+		print("Spawn Location Found: Room" + str(current_room_number))
 
-	# Communicate the spawn location and the player's location to the mob.
-	var player_position = $PlayerNode/Camera.get_camera_transform().origin
-	#print(player_position)
-	var mob_spawn_adjusted = mob_spawn_location.translation.rotated(Vector3(0,1,0), get_node("Room" + str(current_room_number)).room_y_rotation) + get_node("Room" + str(current_room_number)).room_adjustment
-	#print(mob_spawn_adjusted)
-	mob.initialize(mob_spawn_adjusted, player_position)
-	print("Mob Initialized")
+		# Communicate the spawn location and the player's location to the mob.
+		var player_position = $PlayerNode/Camera.get_camera_transform().origin
+		#print(player_position)
+		var mob_spawn_adjusted = mob_spawn_location.translation.rotated(Vector3(0,1,0), get_node("Room" + str(current_room_number)).room_y_rotation) + get_node("Room" + str(current_room_number)).room_adjustment
+		#print(mob_spawn_adjusted)
+		mob.initialize(mob_spawn_adjusted, player_position)
+		print("Mob Initialized")
 
-	# Spawn the mob by adding it to the Main scene.
-	add_child(mob)
-	# We connect the mob to the score label to update the score upon squashing a mob.
-	mob.connect("defeated", $HUD/Score, "_on_Mob_defeated")
+		# Spawn the mob by adding it to the Main scene.
+		add_child(mob)
+		# Connect signals.
+		mob.connect("defeated", $HUD/Score, "_on_Mob_defeated")
+		mob.connect("lost", self, "_on_Mob_lost")
+	else:
+		print("A Mob already exists in this room.")
 
 
 func _on_HUD_change_ccw():
@@ -132,3 +139,16 @@ func _on_HUD_change_cw():
 	if $HUD/Ketchup.port_right == true and $HUD/Toaster.port_right == true:
 		var camera_change = (current_room_number) % (get_tree().get_nodes_in_group("Rooms").size()) + 1
 		ChangeCurrentCamera(camera_change)
+
+
+func _on_Mob_lost():
+	$MobTimer.stop()
+	$HUD/Clock.hide()
+	$HUD/Score.hide()
+	$TitleScreen.show()
+
+
+func _on_TitleScreen_start():
+	$MobTimer.start()
+	$HUD/Clock.show()
+	$HUD/Score.show()

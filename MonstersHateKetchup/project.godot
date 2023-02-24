@@ -13,6 +13,10 @@ config_version=4
 config/name="Monsters Hate Ketchup"
 run/main_scene="res://scenes/World.tscn"
 
+[autoload]
+
+Global="*res://scripts/Global.gd"
+
 [display]
 
 window/size/width=1280

@@ -45,12 +45,14 @@ func _process(delta):
 #		$AnimatedSprite.flip_v = velocity.y > 0
 	
 	if Input.is_action_pressed(action_key):
-		var rayCheck = PointToRay(get_node("../../PlayerNode/Camera"), self)
-		if rayCheck:
-			var rayCollide = rayCheck.collider
-			if rayCollide.is_in_group("Mobs"):
-				var nodeName = rayCollide.to_string()
-				get_node("../../" + nodeName).defeat()
+		#var camera_node = get_node("../../PlayerNode/Camera")
+		if get_tree().current_scene.name == "World":
+			var rayCheck = PointToRay(get_node("../../PlayerNode/Camera"), self)
+			if rayCheck:
+				var rayCollide = rayCheck.collider
+				if rayCollide.is_in_group("Mobs"):
+					var nodeName = rayCollide.to_string()
+					get_node("../../" + nodeName).defeat()
 
 
 func PointToRay(o_camera, end_point):

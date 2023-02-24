@@ -1,32 +1,40 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scripts/Mob.gd" type="Script" id=1]
+[ext_resource path="res://assets/2D/furry_c.PNG" type="Texture" id=2]
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_color = Color( 1, 0.498039, 0.498039, 1 )
 
 [sub_resource type="CubeMesh" id=2]
-size = Vector3( 4, 5, 1 )
-
-[sub_resource type="BoxShape" id=3]
-extents = Vector3( 1.96242, 2.49381, 0.551151 )
+size = Vector3( 5.5, 5, 0.1 )
 
 [node name="Mob" type="KinematicBody" groups=["Mobs"]]
 collision_layer = 4
 collision_mask = 0
 script = ExtResource( 1 )
 
-[node name="Pivot" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0 )
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 1, 0, 2.5, -0.051 )
+cast_shadow = 2
+shaded = true
+alpha_cut = 2
+texture = ExtResource( 2 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Pivot"]
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0 )
+visible = false
 material_override = SubResource( 1 )
 mesh = SubResource( 2 )
-skeleton = NodePath("../..")
-
-[node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0 )
-shape = SubResource( 3 )
 
 [node name="VisibilityNotifier" type="VisibilityNotifier" parent="."]
-aabb = AABB( -1.98364, -0.0296936, -0.5, 3.96727, 5.0213, 1 )
+aabb = AABB( -2.77657, -0.0296936, -0.5, 5.55312, 5.0213, 1 )
+
+[node name="DeathTimer" type="Timer" parent="."]
+wait_time = 15.0
+autostart = true
+
+[node name="CollisionPolygon" type="CollisionPolygon" parent="."]
+polygon = PoolVector2Array( -2.64079, 0.27966, 2.00231, 0.254745, 1.86206, 1.65222, 1.9864, 2.58968, 1.50982, 3.2544, 2.31684, 3.91188, 1.57441, 4.87558, 1.1222, 4.23184, 0.697212, 4.06959, -0.0565552, 4.21119, -0.444625, 4.08872, -0.365838, 4.76642, -1.08917, 4.57497, -1.48423, 3.96719, -1.28477, 3.43321, -2.20262, 2.74274, -2.29732, 2.1797, -2.09029, 1.52093, -2.67407, 1.29136 )
+
+[connection signal="timeout" from="DeathTimer" to="." method="_on_DeathTimer_timeout"]
