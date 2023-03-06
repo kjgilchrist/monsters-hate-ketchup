@@ -7,13 +7,12 @@ Potentiometer Code:
 GND - Signal - VCC, Note: GND and VCC are interchangable
 Created by ArduinoGetStarted.com, Public Domain
 Tutorial page: https://arduinogetstarted.com/tutorials/arduino-potentiometer
-lllllll
+
 FSR Code:
 Connect one end of FSR to 5V, the other end to Analog 0.
 Then connect one end of a 10K resistor from Analog 0 to ground
 For more information see www.ladyada.net/learn/sensors/fsr.html
 */
-
 /*
  * Teensy-LC Analog Pins
  * A0 - 14 - White - Button
@@ -45,14 +44,14 @@ void loop() {
   // Map potentiometer's voltage (from 0V to 5V):
   float voltage = floatMap(potValue, 0, 1023, 0, 3.3);
 
-  Serial.print("FSR Analog: ");
-  Serial.println(fsrReading);
+  // Serial.print("FSR Analog: ");
+  // Keyboard.println(fsrReading);
   
   // Print current state of each sensor.
-  if (fsrReading > prevFsrReading && fsrReading > 100) {
+  if (fsrReading < prevFsrReading && fsrReading < 750) {
     // Serial.print("FSR Analog: ");
     // Serial.println(fsrReading);
-    // Keyboard.print("l");
+    Keyboard.print("l");
   }
   if (potValue < 300) {
     // Serial.println("Go Left");
@@ -71,7 +70,7 @@ void loop() {
   prevButtonState = buttonState;
   prevPotValue = potValue;
   prevFsrReading = fsrReading;
-  // delay(500);
+  // delay(1000);
 }
 
 float floatMap(float x, float in_min, float in_max, float out_min, float out_max) {
