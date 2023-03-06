@@ -4,6 +4,8 @@ onready var light_node = get_node("Room1")  # The path in the tree, not the file
 onready var start_camera = get_node("Room1/Camera")
 var current_room_number = 1
 var current_room_node
+var number_mobs = 1
+var seconds_survived = 0
 
 export(PackedScene) var mob_scene = load("res://instances/mob.tscn")
 
@@ -28,7 +30,9 @@ func _ready():
 
 func _process(_delta):
 	$PlayerNode/SpotLight.look_at(PointToRay($PlayerNode/Camera, $HUD/Toaster), Vector3.UP)
-
+	
+	if seconds_survived % 10 == 0:
+		number_mobs += 1
 
 func _input(event):
 	# Change Camera keys
@@ -101,7 +105,7 @@ func SwitchCurrentRoomLight():
 
 func _on_MobTimer_timeout():
 	$MobTimer.wait_time = rand_range(5,15)
-	if get_tree().get_nodes_in_group("Mobs").size() < 1:
+	if get_tree().get_nodes_in_group("Mobs").size() < number_mobs:
 		# Create a new instance of the Mob scene.
 		var mob = mob_scene.instance()
 		print("Mob Instance Created")
@@ -126,29 +130,45 @@ func _on_MobTimer_timeout():
 		mob.connect("defeated", $HUD/Score, "_on_Mob_defeated")
 		mob.connect("lost", self, "_on_Mob_lost")
 	else:
-		print("A Mob already exists in this room.")
+		print("Enough mobs already exist in this room.")
 
 
 func _on_HUD_change_ccw():
 	if $HUD/Ketchup.port_left == true and $HUD/Toaster.port_left == true:
+		$Footstep.play()
 		var camera_change = (current_room_number + 4) % (get_tree().get_nodes_in_group("Rooms").size()) + 1
 		ChangeCurrentCamera(camera_change)
 
 
 func _on_HUD_change_cw():
 	if $HUD/Ketchup.port_right == true and $HUD/Toaster.port_right == true:
+		$Footstep.play()
 		var camera_change = (current_room_number) % (get_tree().get_nodes_in_group("Rooms").size()) + 1
 		ChangeCurrentCamera(camera_change)
 
 
 func _on_Mob_lost():
+	$Gasp.play()
+	var mobs = get_tree().get_nodes_in_group("Mobs")
+	if mobs.size() > 0:
+		for mobNode in mobs:
+			mobNode.queue_free()
 	$MobTimer.stop()
+	$SurviveTimer.start()
+	number_mobs = 1
 	#$HUD/Clock.hide()
 	$HUD/Score.hide()
+	$HUD/Score.score = 0
+	$HUD/Score.text = "Score: 0"
 	$TitleScreen.show()
 
 
 func _on_TitleScreen_start():
 	$MobTimer.start()
+	$SurviveTimer.start()
 	# $HUD/Clock.show()
 	$HUD/Score.show()
+
+
+func _on_SurviveTimer_timeout():
+	seconds_survived += 1

@@ -47,14 +47,12 @@ func _process(delta):
 	if Input.is_action_pressed(action_key):
 		#var camera_node = get_node("../../PlayerNode/Camera")
 		if get_tree().current_scene.name == "World":
-			var rayCheck = PointToRay(get_node("../../PlayerNode/Camera"), self)
 			flashLight()
 			$PlayerSound.play()
-			if rayCheck:
-				var rayCollide = rayCheck.collider
-				if rayCollide.is_in_group("Mobs"):
-					var nodeName = rayCollide.to_string()
-					get_node("../../" + nodeName).restartTimer()
+			var mobs = get_tree().get_nodes_in_group("Mobs")
+			if mobs.size() > 0:
+				for mobNode in mobs:
+					get_node("../../" + str(mobNode)).restartTimer()
 
 
 func PointToRay(o_camera, end_point):

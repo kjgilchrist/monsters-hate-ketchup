@@ -6,4 +6,5 @@
 
 [node name="Ambient" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 1 )
+volume_db = -5.0
 autoplay = true
