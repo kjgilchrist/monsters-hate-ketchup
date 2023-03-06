@@ -50,10 +50,14 @@ align = 1
 valign = 1
 
 [node name="StartButtonTemp" type="Button" parent="."]
-margin_left = 611.0
-margin_top = 454.0
-margin_right = 667.0
-margin_bottom = 485.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -28.0
+margin_top = -15.5
+margin_right = 28.0
+margin_bottom = 15.5
 theme = ExtResource( 3 )
 text = "START"
 

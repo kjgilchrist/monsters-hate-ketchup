@@ -20,8 +20,10 @@ BackgroundAudio="*res://scenes/BackgroundAudio.tscn"
 
 [display]
 
-window/size/width=1280
-window/size/height=720
+window/size/width=1366
+window/size/height=768
+window/size/resizable=false
+window/size/borderless=true
 
 [gui]
 

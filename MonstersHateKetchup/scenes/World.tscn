@@ -159,7 +159,7 @@ __meta__ = {
 [node name="HUD" parent="." instance=ExtResource( 1 )]
 
 [node name="Ketchup" parent="HUD" index="3"]
-position = Vector2( 641, 360 )
+position = Vector2( 683, 360 )
 move_right = "ketchup_move_right"
 move_left = "ketchup_move_left"
 move_up = "ketchup_move_up"
@@ -168,7 +168,7 @@ move_up = "ketchup_move_up"
 stream = ExtResource( 9 )
 
 [node name="Toaster" parent="HUD" index="4"]
-position = Vector2( 641, 360 )
+position = Vector2( 683, 360 )
 move_right = "toast_move_right"
 move_left = "toast_move_left"
 move_up = "toast_move_up"
