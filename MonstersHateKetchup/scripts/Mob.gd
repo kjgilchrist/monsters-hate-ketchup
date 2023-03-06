@@ -5,7 +5,7 @@ signal defeated
 signal lost
 
 # Minimum speed of the mob in meters per second.
-export var min_speed = 15
+export var min_speed = 20
 # Maximum speed of the mob in meters per second.
 export var max_speed = 25
 
@@ -48,7 +48,8 @@ func initialize(start_position, player_position):
 	#velocity = direction_to_player.normalized() * random_speed
 	# We then rotate the vector based on the mob's Y rotation to move in the direction it's looking.
 	velocity = velocity.rotated(Vector3.UP, rotation.y)
-
+	
+	$Roar.play()
 	#$AnimationPlayer.playback_speed = random_speed / min_speed
 
 
@@ -57,6 +58,9 @@ func defeat():
 	emit_signal("defeated")
 	queue_free()
 
+func restartTimer():
+	$DeathTimer.stop()
+	$DeathTimer.start()
 
 # Currently don't work.
 func _on_VisibilityNotifier_camera_entered(camera):

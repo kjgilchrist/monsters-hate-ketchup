@@ -22,7 +22,7 @@ func _ready():
 		get_node("Room" + str(n)).room_adjustment = get_node("Room" + str(n)).translation
 		get_node("Room" + str(n)).room_y_rotation = get_node("Room" + str(n)).get_rotation().y
 	current_room_node = light_node
-	$HUD/Clock.hide()
+	# $HUD/Clock.hide()
 	$HUD/Score.hide()
 
 
@@ -143,12 +143,12 @@ func _on_HUD_change_cw():
 
 func _on_Mob_lost():
 	$MobTimer.stop()
-	$HUD/Clock.hide()
+	#$HUD/Clock.hide()
 	$HUD/Score.hide()
 	$TitleScreen.show()
 
 
 func _on_TitleScreen_start():
 	$MobTimer.start()
-	$HUD/Clock.show()
+	# $HUD/Clock.show()
 	$HUD/Score.show()

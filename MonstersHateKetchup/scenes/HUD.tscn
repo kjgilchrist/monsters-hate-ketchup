@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://fonts/Mynerve/Mynerve-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://scenes/Ketchup.tscn" type="PackedScene" id=2]
@@ -12,11 +12,6 @@ extents = Vector2( 48, 72 )
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 48, 72 )
-
-[sub_resource type="SphereMesh" id=3]
-
-[sub_resource type="CircleShape2D" id=4]
-radius = 1.00664
 
 [sub_resource type="DynamicFont" id=5]
 size = 25
@@ -50,32 +45,17 @@ shape = SubResource( 2 )
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 6 )
 
-[node name="Clock" type="StaticBody2D" parent="."]
-visible = false
-collision_layer = 0
-collision_mask = 0
-
-[node name="MeshInstance2D" type="MeshInstance2D" parent="Clock"]
-position = Vector2( 1088, 96 )
-scale = Vector2( 64.0726, 64.0726 )
-mesh = SubResource( 3 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Clock"]
-position = Vector2( 1088, 96 )
-scale = Vector2( 64.0726, 64.0726 )
-shape = SubResource( 4 )
-
 [node name="Score" type="Label" parent="."]
 anchor_left = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 768.0
+margin_left = 1000.0
 margin_top = 48.0
-margin_right = 992.0
+margin_right = 1224.0
 margin_bottom = 88.0
 custom_fonts/font = SubResource( 5 )
 text = "Score: 0"
-align = 2
+align = 1
 valign = 1
 script = ExtResource( 5 )
 

@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scripts/Mob.gd" type="Script" id=1]
 [ext_resource path="res://assets/2D/furry_c.PNG" type="Texture" id=2]
+[ext_resource path="res://sounds/beast_roar.wav" type="AudioStream" id=3]
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_color = Color( 1, 0.498039, 0.498039, 1 )
@@ -31,10 +32,14 @@ mesh = SubResource( 2 )
 aabb = AABB( -2.77657, -0.0296936, -0.5, 5.55312, 5.0213, 1 )
 
 [node name="DeathTimer" type="Timer" parent="."]
-wait_time = 15.0
+wait_time = 10.0
 autostart = true
 
 [node name="CollisionPolygon" type="CollisionPolygon" parent="."]
 polygon = PoolVector2Array( -2.64079, 0.27966, 2.00231, 0.254745, 1.86206, 1.65222, 1.9864, 2.58968, 1.50982, 3.2544, 2.31684, 3.91188, 1.57441, 4.87558, 1.1222, 4.23184, 0.697212, 4.06959, -0.0565552, 4.21119, -0.444625, 4.08872, -0.365838, 4.76642, -1.08917, 4.57497, -1.48423, 3.96719, -1.28477, 3.43321, -2.20262, 2.74274, -2.29732, 2.1797, -2.09029, 1.52093, -2.67407, 1.29136 )
+
+[node name="Roar" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+volume_db = -15.0
 
 [connection signal="timeout" from="DeathTimer" to="." method="_on_DeathTimer_timeout"]
