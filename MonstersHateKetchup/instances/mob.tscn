@@ -40,6 +40,5 @@ polygon = PoolVector2Array( -2.64079, 0.27966, 2.00231, 0.254745, 1.86206, 1.652
 
 [node name="Roar" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
-volume_db = -15.0
 
 [connection signal="timeout" from="DeathTimer" to="." method="_on_DeathTimer_timeout"]

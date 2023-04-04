@@ -104,7 +104,7 @@ func SwitchCurrentRoomLight():
 
 
 func _on_MobTimer_timeout():
-	$MobTimer.wait_time = rand_range(5,15)
+	$MobTimer.wait_time = rand_range(5,10)
 	if get_tree().get_nodes_in_group("Mobs").size() < number_mobs:
 		# Create a new instance of the Mob scene.
 		var mob = mob_scene.instance()
